@@ -59,8 +59,8 @@ impl Default for MyApp {
 }
 
 impl eframe::App for MyApp {
-    fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
-        egui::CentralPanel::default().show(ctx, |ui| {
+    fn ui(&mut self, ui: &mut egui::Ui, _frame: &mut eframe::Frame) {
+        egui::CentralPanel::default().show(ui, |ui| {
             // --- Animation Selection ---
             ui.horizontal(|ui| {
                 ui.label("Select Animation:");
@@ -127,19 +127,20 @@ impl eframe::App for MyApp {
 
             // --- Controlled Animation ---
             if self.animation_running {
+                let ctx = ui.ctx().clone();
                 let (animator, finished) = match self.selected_animation {
                     AnimationType::FadeIn => {
-                        self.fade_animator.process_animation(ctx);
+                        self.fade_animator.process_animation(&ctx);
                         let finished = self.fade_animator.is_animation_finished();
                         (&mut self.fade_animator, finished)
                     }
                     AnimationType::Typewriter => {
-                        self.typewriter_animator.process_animation(ctx);
+                        self.typewriter_animator.process_animation(&ctx);
                         let finished = self.typewriter_animator.is_animation_finished();
                         (&mut self.typewriter_animator, finished)
                     }
                     AnimationType::Hacker => {
-                        self.hacker_animator.process_animation(ctx);
+                        self.hacker_animator.process_animation(&ctx);
                         let finished = self.hacker_animator.is_animation_finished();
                         (&mut self.hacker_animator, finished)
                     }

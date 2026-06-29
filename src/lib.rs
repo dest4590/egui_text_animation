@@ -215,11 +215,15 @@ impl TextAnimator {
             } else {
                 0.0
             };
-            job.append(&ch.to_string(), 0.0, TextFormat {
-                color: self.color.gamma_multiply(char_alpha_f32),
-                font_id: self.font.clone(),
-                ..Default::default()
-            });
+            job.append(
+                &ch.to_string(),
+                0.0,
+                TextFormat {
+                    color: self.color.gamma_multiply(char_alpha_f32),
+                    font_id: self.font.clone(),
+                    ..Default::default()
+                },
+            );
         }
         ui.label(job);
     }
@@ -234,11 +238,15 @@ impl TextAnimator {
         let mut job = LayoutJob::default();
         for (i, ch) in chars.iter().enumerate() {
             if i < visible_chars {
-                job.append(&ch.to_string(), 0.0, TextFormat {
-                    color: self.color,
-                    font_id: self.font.clone(),
-                    ..Default::default()
-                });
+                job.append(
+                    &ch.to_string(),
+                    0.0,
+                    TextFormat {
+                        color: self.color,
+                        font_id: self.font.clone(),
+                        ..Default::default()
+                    },
+                );
             } // No else clause needed - we simply don't add invisible characters
         }
         ui.label(job);
@@ -251,18 +259,26 @@ impl TextAnimator {
         for (i, &ch) in self.intermediate_text.iter().enumerate() {
             // Check if we've reached the final character, and display it.
             if self.text.chars().nth(i) == Some(ch) {
-                job.append(&ch.to_string(), 0.0, TextFormat {
-                    color: self.color,
-                    font_id: self.font.clone(),
-                    ..Default::default()
-                });
+                job.append(
+                    &ch.to_string(),
+                    0.0,
+                    TextFormat {
+                        color: self.color,
+                        font_id: self.font.clone(),
+                        ..Default::default()
+                    },
+                );
             } else {
                 // Display the intermediate (random) character.
-                job.append(&ch.to_string(), 0.0, TextFormat {
-                    color: self.color, // Could make this a different color for "hacker" effect
-                    font_id: self.font.clone(),
-                    ..Default::default()
-                });
+                job.append(
+                    &ch.to_string(),
+                    0.0,
+                    TextFormat {
+                        color: self.color, // Could make this a different color for "hacker" effect
+                        font_id: self.font.clone(),
+                        ..Default::default()
+                    },
+                );
             }
         }
         ui.label(job);
